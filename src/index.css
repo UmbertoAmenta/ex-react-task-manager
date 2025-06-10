@@ -27,3 +27,36 @@ nav {
     font-size: bold;
   }
 }
+
+/* tasklist */
+.grid {
+  display: grid;
+  grid-template-columns: 45% 15% 40%;
+  gap: 15px;
+
+  > * {
+    display: flex;
+    align-items: center;
+
+    &:not(:first-child) {
+      justify-content: center;
+      text-align: center;
+    }
+  }
+
+  &:not(:last-child) {
+    margin-bottom: 10px;
+  }
+
+  .red {
+    background-color: red;
+  }
+
+  .yellow {
+    background-color: yellow;
+  }
+
+  .green {
+    background-color: green;
+  }
+}
