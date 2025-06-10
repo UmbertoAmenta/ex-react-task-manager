@@ -13,7 +13,11 @@ function TaskRow({ task }) {
       >
         {task.status}
       </span>
-      <span>{task.createdAt.replace(/T|Z|\.\d+/g, " ")}</span>
+
+      <span>{task.createdAt.split("T", 1)}</span>
+
+      {/* alternativa */}
+      {/* <span>{task.createdAt.replace(/T|Z|\.\d+/g, " ")}</span> */}
     </div>
   );
 }

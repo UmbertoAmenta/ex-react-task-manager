@@ -30,33 +30,45 @@ nav {
 
 /* tasklist */
 .grid {
+  max-width: 80%;
+  margin: auto;
   display: grid;
   grid-template-columns: 45% 15% 40%;
   gap: 15px;
 
+  &.head {
+    background-color: #eeeeee63;
+    border-radius: 20px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-size: large;
+  }
+
   > * {
     display: flex;
+    padding: 0 10px;
     align-items: center;
+    border-radius: 20px;
 
     &:not(:first-child) {
       justify-content: center;
       text-align: center;
     }
+
+    &.red {
+      background-color: rgb(240, 128, 128);
+    }
+
+    &.yellow {
+      background-color: rgba(255, 255, 0, 0.653);
+    }
+
+    &.green {
+      background-color: lightgreen;
+    }
   }
 
   &:not(:last-child) {
     margin-bottom: 10px;
-  }
-
-  .red {
-    background-color: red;
-  }
-
-  .yellow {
-    background-color: yellow;
-  }
-
-  .green {
-    background-color: green;
   }
 }

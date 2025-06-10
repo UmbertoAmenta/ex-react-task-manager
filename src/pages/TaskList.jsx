@@ -8,15 +8,14 @@ export default function TaskList() {
   const { tasks } = useContext(TasksContext);
   return (
     <div>
+      <div className="grid head">
+        <div>Attività</div>
+        <div>Status</div>
+        <div>Data di creazione</div>
+      </div>
       {tasks.map((t) => (
         <TaskRow key={t.id} task={t} />
       ))}
     </div>
   );
 }
-
-// <div key={t.id} className="grid">
-//   <span>{t.title}</span>
-//   <span>{t.status}</span>
-//   <span>{t.createdAt}</span>
-// </div>
