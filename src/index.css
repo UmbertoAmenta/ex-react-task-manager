@@ -1,0 +1,29 @@
+/* general */
+:root {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* navbar */
+nav {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 20px;
+
+  a {
+    background-color: #eeeeee63;
+    margin: 10px;
+    padding: 10px;
+    border-radius: 20px;
+    text-decoration: none;
+    color: #696767;
+  }
+
+  .active {
+    color: black;
+    scale: 1.4;
+    font-size: bold;
+  }
+}
