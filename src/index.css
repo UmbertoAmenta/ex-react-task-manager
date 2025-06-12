@@ -72,3 +72,21 @@ nav {
     margin-bottom: 10px;
   }
 }
+
+/* add task */
+.newtask {
+  max-width: 80%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  gap: 20px;
+
+  label > :first-child {
+    margin-bottom: 5px;
+  }
+  .error {
+    color: red;
+    font-size: x-small;
+  }
+}
