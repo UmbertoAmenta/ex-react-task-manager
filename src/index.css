@@ -5,6 +5,11 @@
   padding: 0;
 }
 
+.container {
+  max-width: 80%;
+  margin: auto;
+}
+
 /* navbar */
 nav {
   display: flex;
@@ -30,15 +35,17 @@ nav {
 
 /* tasklist */
 .grid {
-  max-width: 80%;
-  margin: auto;
   display: grid;
   grid-template-columns: 45% 15% 40%;
   gap: 15px;
 
+  a {
+    text-decoration: none;
+    color: black;
+  }
+
   &.head {
     background-color: #eeeeee63;
-    border-radius: 20px;
     padding-top: 5px;
     padding-bottom: 5px;
     font-size: large;
@@ -54,18 +61,6 @@ nav {
       justify-content: center;
       text-align: center;
     }
-
-    &.red {
-      background-color: rgb(240, 128, 128);
-    }
-
-    &.yellow {
-      background-color: rgba(255, 255, 0, 0.653);
-    }
-
-    &.green {
-      background-color: lightgreen;
-    }
   }
 
   &:not(:last-child) {
@@ -73,12 +68,31 @@ nav {
   }
 }
 
+.red,
+.yellow,
+.green {
+  border-radius: 20px;
+  /* padding: 5px; */
+  /* font-size: small; */
+}
+
+.red {
+  background-color: rgb(240, 128, 128);
+}
+
+.yellow {
+  background-color: rgba(255, 255, 0, 0.653);
+}
+
+.green {
+  background-color: lightgreen;
+}
+
 /* add task */
 .newtask {
   background-color: #eeeeee63;
   border-radius: 20px;
   width: min-content;
-  max-width: 80%;
   margin: auto;
   display: flex;
   flex-direction: column;
@@ -97,5 +111,29 @@ nav {
 
   p {
     margin-top: 10px;
+  }
+}
+
+/* detail page */
+.container.detail {
+  > div > :first-child {
+    background-color: #eeeeee63;
+    padding: 15px;
+  }
+
+  > div > :not(first-child) {
+    padding: 15px;
+  }
+
+  .flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .red,
+  .yellow,
+  .green {
+    padding: 5px 10px;
   }
 }

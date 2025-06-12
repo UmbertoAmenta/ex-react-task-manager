@@ -51,34 +51,36 @@ export default function AddTask() {
   };
 
   return (
-    <form className="newtask" onSubmit={handleForm}>
-      <label>
-        <div>Titolo *</div>
-        <input
-          type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          required
-        />
-        {error && <div className="error">{error}</div>}
-      </label>
+    <main className="container">
+      <form className="newtask" onSubmit={handleForm}>
+        <label>
+          <div>Titolo *</div>
+          <input
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            required
+          />
+          {error && <div className="error">{error}</div>}
+        </label>
 
-      <label>
-        <div>Descrizione</div>
-        <textarea ref={descriptionRef}></textarea>
-      </label>
+        <label>
+          <div>Descrizione</div>
+          <textarea ref={descriptionRef}></textarea>
+        </label>
 
-      <label>
-        <div>Status</div>
-        <select ref={statusRef} defaultValue="To do">
-          <option value="To do">To do</option>
-          <option value="Doing">Doing</option>
-          <option value="Done">Done</option>
-        </select>
-      </label>
+        <label>
+          <div>Status</div>
+          <select ref={statusRef} defaultValue="To do">
+            <option value="To do">To do</option>
+            <option value="Doing">Doing</option>
+            <option value="Done">Done</option>
+          </select>
+        </label>
 
-      <p>* campo obbligatorio</p>
-      <button type="submit">Aggiungi alla lista</button>
-    </form>
+        <p>* campo obbligatorio</p>
+        <button type="submit">Aggiungi alla lista</button>
+      </form>
+    </main>
   );
 }

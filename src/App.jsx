@@ -8,6 +8,7 @@ import DefaultLayout from "./Layouts/DefaultLayout";
 // Pages
 import TaskList from "./pages/TaskList";
 import AddTask from "./pages/AddTask";
+import TaskDetail from "./pages/TaskDetail";
 
 export default function App() {
   return (
@@ -16,6 +17,7 @@ export default function App() {
         <Routes>
           <Route element={<DefaultLayout />}>
             <Route path="/" element={<TaskList />} />
+            <Route path="/task/:id" element={<TaskDetail />} />
             <Route path="/manager" element={<AddTask />} />
           </Route>
         </Routes>

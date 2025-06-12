@@ -1,9 +1,12 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function TaskRow({ task }) {
   return (
     <div className="grid">
-      <span>{task.title}</span>
+      <span>
+        <Link to={`/task/${task.id}`}>{task.title}</Link>
+      </span>
       <span
         className={
           (task.status === "To do" && "red") ||
