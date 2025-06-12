@@ -1,5 +1,5 @@
 /* general */
-:root {
+* {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -75,18 +75,27 @@ nav {
 
 /* add task */
 .newtask {
+  background-color: #eeeeee63;
+  border-radius: 20px;
+  width: min-content;
   max-width: 80%;
   margin: auto;
   display: flex;
   flex-direction: column;
-  padding: 10px;
+  align-items: flex-start;
+  padding: 30px;
   gap: 20px;
 
   label > :first-child {
     margin-bottom: 5px;
   }
+
   .error {
     color: red;
     font-size: x-small;
+  }
+
+  p {
+    margin-top: 10px;
   }
 }

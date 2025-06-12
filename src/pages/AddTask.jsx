@@ -1,4 +1,10 @@
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
+
+// contexts
+import TasksContext from "../contexts/TasksContext";
+
+// custom hooks
+import useTasks from "../customHooks/useTasks";
 
 export default function AddTask() {
   const [title, setTitle] = useState("");
@@ -6,10 +12,11 @@ export default function AddTask() {
   const statusRef = useRef();
 
   const [error, setError] = useState("");
+  const { addTask } = useContext(TasksContext);
 
   const symbols = "'!@#$%^&*()-_=+[]{}|;:\",.<>?/`~";
 
-  const handleForm = (e) => {
+  const handleForm = async (e) => {
     e.preventDefault();
 
     // validazione titolo
@@ -22,16 +29,23 @@ export default function AddTask() {
       return;
     }
 
-    console.log({
+    const newTask = {
       title: title,
       description: descriptionRef.current.value,
       status: statusRef.current.value,
-    });
+    };
 
-    // reset del form
-    setTitle("");
-    descriptionRef.current.value = "";
-    statusRef.current.value = "To do";
+    try {
+      await addTask(newTask);
+      alert("Task creata");
+
+      // reset del form
+      setTitle("");
+      descriptionRef.current.value = "";
+      statusRef.current.value = "To do";
+    } catch (error) {
+      alert(error.message);
+    }
 
     setError("");
   };
