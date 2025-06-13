@@ -6,13 +6,15 @@ import TasksContext from "../contexts/TasksContext";
 
 // components
 import Modal from "../components/Modal";
+import EditTaskModal from "../components/EditTaskModal";
 
 export default function TaskDetail() {
   const { id } = useParams();
-  const { tasks, removeTask } = useContext(TasksContext);
+  const { tasks, removeTask, updateTask } = useContext(TasksContext);
   const navToList = useNavigate();
 
   const [showModal, setShowModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
 
   const task = tasks.find((task) => task.id == id);
 
@@ -22,6 +24,17 @@ export default function TaskDetail() {
     try {
       await removeTask(task.id);
       alert("Task eliminata");
+      navToList("/");
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
+  const handleEdit = async (updatedTask) => {
+    try {
+      await updateTask(task.id, updatedTask);
+      alert("Task modificata");
+      setShowEditModal(false);
       navToList("/");
     } catch (error) {
       alert(error.message);
@@ -46,6 +59,9 @@ export default function TaskDetail() {
         <p>{task.description}</p>
         <div className="flex">
           <span>{task.createdAt.split("T", 1)}</span>
+          <button type="button" onClick={() => setShowEditModal(true)}>
+            Modifica Task
+          </button>
           <button type="button" onClick={() => setShowModal(true)}>
             Elimina Task
           </button>
@@ -62,6 +78,13 @@ export default function TaskDetail() {
           await handleDelete();
         }}
         confirmText="Elimina"
+      />
+
+      <EditTaskModal
+        show={showEditModal}
+        onClose={() => setShowEditModal(false)}
+        task={task}
+        onSave={handleEdit}
       />
     </main>
   );
