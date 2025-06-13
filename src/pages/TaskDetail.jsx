@@ -1,12 +1,18 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
+// context
 import TasksContext from "../contexts/TasksContext";
+
+// components
+import Modal from "../components/Modal";
 
 export default function TaskDetail() {
   const { id } = useParams();
   const { tasks, removeTask } = useContext(TasksContext);
   const navToList = useNavigate();
+
+  const [showModal, setShowModal] = useState(false);
 
   const task = tasks.find((task) => task.id == id);
 
@@ -40,11 +46,23 @@ export default function TaskDetail() {
         <p>{task.description}</p>
         <div className="flex">
           <span>{task.createdAt.split("T", 1)}</span>
-          <button type="button" onClick={handleDelete}>
+          <button type="button" onClick={() => setShowModal(true)}>
             Elimina Task
           </button>
         </div>
       </div>
+
+      <Modal
+        title="Conferma eliminazione"
+        content="Sei sicuro di voler eliminare questa task?"
+        show={showModal}
+        onClose={() => setShowModal(false)}
+        onConfirm={async () => {
+          setShowModal(false);
+          await handleDelete();
+        }}
+        confirmText="Elimina"
+      />
     </main>
   );
 }
