@@ -1,15 +1,26 @@
 import { useContext } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import TasksContext from "../contexts/TasksContext";
 
 export default function TaskDetail() {
   const { id } = useParams();
-  const { tasks } = useContext(TasksContext);
+  const { tasks, removeTask } = useContext(TasksContext);
+  const navToList = useNavigate();
 
   const task = tasks.find((task) => task.id == id);
 
   if (!task) return <div>Task non trovata</div>;
+
+  const handleDelete = async () => {
+    try {
+      await removeTask(task.id);
+      alert("Task eliminata");
+      navToList("/");
+    } catch (error) {
+      alert(error.message);
+    }
+  };
 
   return (
     <main className="container detail">
@@ -29,10 +40,7 @@ export default function TaskDetail() {
         <p>{task.description}</p>
         <div className="flex">
           <span>{task.createdAt.split("T", 1)}</span>
-          <button
-            type="button"
-            onClick={(e) => console.log("Task in fase di eliminazione")}
-          >
+          <button type="button" onClick={handleDelete}>
             Elimina Task
           </button>
         </div>

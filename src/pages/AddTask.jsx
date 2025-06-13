@@ -3,9 +3,6 @@ import { useContext, useRef, useState } from "react";
 // contexts
 import TasksContext from "../contexts/TasksContext";
 
-// custom hooks
-import useTasks from "../customHooks/useTasks";
-
 export default function AddTask() {
   const [title, setTitle] = useState("");
   const descriptionRef = useRef();
