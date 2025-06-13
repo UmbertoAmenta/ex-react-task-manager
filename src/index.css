@@ -37,7 +37,6 @@ nav {
 .grid {
   display: grid;
   grid-template-columns: 45% 15% 40%;
-  gap: 15px;
 
   a {
     text-decoration: none;
@@ -49,6 +48,11 @@ nav {
     padding-top: 5px;
     padding-bottom: 5px;
     font-size: large;
+    height: 40px;
+
+    > button {
+      background-color: inherit;
+    }
   }
 
   > * {
