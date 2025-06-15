@@ -7,6 +7,7 @@ import TasksContext from "../contexts/TasksContext";
 // components
 import Modal from "../components/Modal";
 import EditTaskModal from "../components/EditTaskModal";
+import dayjs from "dayjs";
 
 export default function TaskDetail() {
   const { id } = useParams();
@@ -62,7 +63,8 @@ export default function TaskDetail() {
         <p>{task.description}</p>
 
         <div className="flex">
-          <span>{task.createdAt.split("T", 1)}</span>
+          <span>{dayjs(task.createdAt).format("DD/MM/YYYY")}</span>
+          {/* <span>{task.createdAt.split("T", 1)}</span> */}
           <button type="button" onClick={() => setShowEditModal(true)}>
             Modifica Task
           </button>

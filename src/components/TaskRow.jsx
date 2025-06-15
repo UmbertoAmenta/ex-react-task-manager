@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import React from "react";
 import { Link } from "react-router-dom";
 
@@ -22,10 +23,10 @@ function TaskRow({ task, checked = false, onToggle }) {
       >
         {task.status}
       </span>
+      <span>{dayjs(task.createdAt).format("DD/MM/YYYY")}</span>
 
-      <span>{task.createdAt.split("T", 1)}</span>
-
-      {/* alternativa */}
+      {/* alternative */}
+      {/* <span>{task.createdAt.split("T", 1)}</span> */}
       {/* <span>{task.createdAt.replace(/T|Z|\.\d+/g, " ")}</span> */}
     </div>
   );

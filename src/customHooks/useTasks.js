@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useReducer } from "react";
+import tasksReducer from "../reducers/tasksReducer";
 
 export default function useTasks() {
-  const [tasks, setTasks] = useState([]);
+  const [tasks, dispatchTasks] = useReducer(tasksReducer, []);
 
   const API_URL = import.meta.env.VITE_API_URL;
 
@@ -10,7 +11,7 @@ export default function useTasks() {
       try {
         const res = await fetch(`${API_URL}/tasks`);
         const data = await res.json();
-        setTasks(data);
+        dispatchTasks({ type: "LOAD_TASKS", payload: data });
       } catch (error) {
         console.error(error);
       }
@@ -18,6 +19,11 @@ export default function useTasks() {
   }, []);
 
   const addTask = async (task) => {
+    const taskExist = tasks.some((t) => t.title === task.title);
+    if (taskExist) {
+      throw new Error("Esiste una task con questo nome");
+    }
+
     const res = await fetch(`${API_URL}/tasks`, {
       method: "POST",
       headers: { "Content-type": "application/json" },
@@ -26,7 +32,7 @@ export default function useTasks() {
     const data = await res.json();
 
     if (data.success) {
-      setTasks((tasks) => [...tasks, data.task]);
+      dispatchTasks({ type: "ADD_TASK", payload: data.task });
     } else {
       throw new Error(data.message);
     }
@@ -37,7 +43,7 @@ export default function useTasks() {
     const data = await res.json();
 
     if (data.success) {
-      setTasks((tasks) => tasks.filter((task) => task.id != taskId));
+      dispatchTasks({ type: "REMOVE_TASK", payload: taskId });
     } else {
       throw new Error(data.message);
     }
@@ -77,9 +83,10 @@ export default function useTasks() {
     });
 
     if (fulfilledDeletions.length > 0) {
-      setTasks((tasks) =>
-        tasks.filter((t) => !fulfilledDeletions.includes(t.id))
-      );
+      dispatchTasks({
+        type: "REMOVE_MULTIPLE_TASKS",
+        payload: fulfilledDeletions,
+      });
     }
 
     if (rejectedDeletions.length > 0) {
@@ -92,6 +99,11 @@ export default function useTasks() {
   };
 
   const updateTask = async (taskId, updatedTask) => {
+    const taskToModify = tasks.find((t) => t.title === updatedTask.title);
+    if (taskToModify && taskToModify.id !== updatedTask.id) {
+      throw new Error("Esiste una task con questo nome");
+    }
+
     const res = await fetch(`${API_URL}/tasks/${taskId}`, {
       method: "PUT",
       headers: { "Content-type": "application/json" },
@@ -100,7 +112,7 @@ export default function useTasks() {
     const data = await res.json();
 
     if (data.success) {
-      setTasks((tasks) => tasks.map((t) => (t.id == taskId ? data.task : t)));
+      dispatchTasks({ type: "UPDATE_TASK", payload: Task });
     } else {
       throw new Error(data.message);
     }
@@ -108,7 +120,6 @@ export default function useTasks() {
 
   return {
     tasks,
-    setTasks,
     addTask,
     removeTask,
     updateTask,
