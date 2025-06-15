@@ -35,17 +35,28 @@ nav {
 
 /* tasklist */
 .search-bar {
-  text-align: center;
+  display: flex;
   margin-bottom: 5px;
+  gap: 10px;
 
   input {
     text-align: center;
+    font-size: medium;
+  }
+
+  button {
+    font-size: xx-small;
+    padding: 5px 10px;
   }
 }
 
 .grid {
   display: grid;
   grid-template-columns: 45% 15% 40%;
+
+  .selection {
+    margin-right: 5px;
+  }
 
   a {
     text-decoration: none;

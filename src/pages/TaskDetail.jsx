@@ -18,13 +18,14 @@ export default function TaskDetail() {
 
   const task = tasks.find((task) => task.id == id);
 
-  if (!task) return <div>Task non trovata</div>;
+  if (!task) return <h2>Task non trovata</h2>;
 
   const handleDelete = async () => {
     try {
       await removeTask(task.id);
       alert("Task eliminata");
       navToList("/");
+      // useNavigate("/");
     } catch (error) {
       alert(error.message);
     }
@@ -46,6 +47,7 @@ export default function TaskDetail() {
       <div>
         <div className="flex">
           <h3>{task.title}</h3>
+
           <span
             className={
               (task.status === "To do" && "red") ||
@@ -56,7 +58,9 @@ export default function TaskDetail() {
             {task.status}
           </span>
         </div>
+
         <p>{task.description}</p>
+
         <div className="flex">
           <span>{task.createdAt.split("T", 1)}</span>
           <button type="button" onClick={() => setShowEditModal(true)}>

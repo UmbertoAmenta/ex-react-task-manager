@@ -7,12 +7,21 @@ import TaskRow from "../components/TaskRow";
 import debounce from "../utilities/debounce";
 
 export default function TaskList() {
-  const { tasks } = useContext(TasksContext);
+  const { tasks, removeMultipleTasks } = useContext(TasksContext);
 
   const [searchQuery, setSearchQuery] = useState("");
 
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortOrder, setSortOrder] = useState(1);
+
+  const [selectedTasksIds, setSelectedTasksIds] = useState([]);
+  function toggleSelection(taskId) {
+    setSelectedTasksIds((tasksIds) =>
+      tasksIds.includes(taskId)
+        ? tasksIds.filter((id) => id !== taskId)
+        : [...tasksIds, taskId]
+    );
+  }
 
   const handleSearch = useCallback(
     debounce((e) => {
@@ -20,6 +29,17 @@ export default function TaskList() {
     }, 400),
     [searchQuery]
   );
+
+  const handleDeleteSelected = async () => {
+    try {
+      await removeMultipleTasks(selectedTasksIds);
+      alert("Tasks eliminate");
+      setSelectedTasksIds([]);
+    } catch (error) {
+      console.error(error);
+      alert(error.message);
+    }
+  };
 
   const filteredTasks = useMemo(() => {
     return tasks.filter((t) =>
@@ -58,7 +78,13 @@ export default function TaskList() {
           onChange={handleSearch}
           placeholder="Digita e cerca"
         />
+        {selectedTasksIds.length > 0 && (
+          <button type="button" onClick={handleDeleteSelected}>
+            Elimina selezione
+          </button>
+        )}
       </section>
+
       <div>
         <div className="grid head">
           <button
@@ -102,7 +128,12 @@ export default function TaskList() {
           </button>
         </div>
         {sortedTasks.map((t) => (
-          <TaskRow key={t.id} task={t} />
+          <TaskRow
+            key={t.id}
+            task={t}
+            checked={selectedTasksIds.includes(t.id)}
+            onToggle={toggleSelection}
+          />
         ))}
       </div>
     </main>

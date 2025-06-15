@@ -1,10 +1,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-function TaskRow({ task }) {
+function TaskRow({ task, checked = false, onToggle }) {
   return (
     <div className="grid">
       <span>
+        <input
+          className="selection"
+          type="checkbox"
+          checked={checked}
+          onChange={() => onToggle(task.id)}
+        />
         <Link to={`/task/${task.id}`}>{task.title}</Link>
       </span>
       <span

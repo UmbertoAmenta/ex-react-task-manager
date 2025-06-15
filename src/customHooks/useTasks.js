@@ -43,6 +43,54 @@ export default function useTasks() {
     }
   };
 
+  const removeMultipleTasks = async (tasksIds) => {
+    const removePromise = async (taskId) => {
+      try {
+        const res = await fetch(`${API_URL}/tasks/${taskId}`, {
+          method: "DELETE",
+        });
+        const data = await res.json();
+        if (data.success === false) {
+          throw new Error(
+            `Errore ${res.status}: impossibile eliminare task ${taskId}`
+          );
+        }
+        return { id: taskId, success: data.success };
+      } catch (error) {
+        return { id: taskId, error: error.message };
+      }
+    };
+
+    const promises = tasksIds.map(removePromise);
+    const results = await Promise.allSettled(promises);
+
+    const fulfilledDeletions = [];
+    const rejectedDeletions = [];
+
+    results.forEach((r, i) => {
+      const taskId = tasksIds[i];
+      if (r.status === "fulfilled" && r.value.success) {
+        fulfilledDeletions.push(taskId);
+      } else {
+        rejectedDeletions.push(taskId);
+      }
+    });
+
+    if (fulfilledDeletions.length > 0) {
+      setTasks((tasks) =>
+        tasks.filter((t) => !fulfilledDeletions.includes(t.id))
+      );
+    }
+
+    if (rejectedDeletions.length > 0) {
+      throw new Error(
+        `Errore con l'eliminazione delle tasks con id:${rejectedDeletions.join(
+          ", "
+        )}`
+      );
+    }
+  };
+
   const updateTask = async (taskId, updatedTask) => {
     const res = await fetch(`${API_URL}/tasks/${taskId}`, {
       method: "PUT",
@@ -58,5 +106,12 @@ export default function useTasks() {
     }
   };
 
-  return { tasks, setTasks, addTask, removeTask, updateTask };
+  return {
+    tasks,
+    setTasks,
+    addTask,
+    removeTask,
+    updateTask,
+    removeMultipleTasks,
+  };
 }
